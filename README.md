@@ -1,7 +1,7 @@
 XGBoost Ensemble Training for Avazu CTR prediction 
 ====================================================
 
-Acknowledgments
+## Acknowledgments
 I learned a lot from this repository "4 Idiots' Approach for Click-through Rate Prediction by Yu-Chin Juan et al", including
 
 - feature engineering: encoding site and app data, adding counting features
@@ -9,23 +9,23 @@ I learned a lot from this repository "4 Idiots' Approach for Click-through Rate 
 
 Thank you to the team for sharing their knowledge and expertise .
 
-Libraries required:
+## Libraries required:
 - scipy
 - sklearn
 - XGBoost
 
-Getting started, the initial files are:
+## Getting started, the initial files are:
 - README.md
 - preprocess.py
 - get_uid_counter.py
 - train.py
 
-Solution:
+## Solution:
 - Ensemble of multiple base models, which are XGBoost classifiers without fine-tuning.
     - Each model making inference on Kaggle achieved log loss between 0.405 ~ 0.42.
     - Ensemble of multiple base models achieved log loss betwee 0.405 ~ 0.412.
 
-Workflow:
+## Workflow:
 1. Prepare train dataset
     - create a data dir under the main dir
     - save train.gz file to the data dir
