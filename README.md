@@ -1,6 +1,14 @@
 XGBoost Ensemble Training for Avazu CTR prediction 
 ====================================================
 
+Acknowledgments
+I learned a lot from this repository "4 Idiots' Approach for Click-through Rate Prediction by Yu-Chin Juan et al", including
+
+- feature engineering: encoding site and app data, adding counting features
+- training techniques: training using subsets of the train dataset improved performance
+
+Thank you to the team for sharing their knowledge and expertise .
+
 Libraries required:
 - scipy
 - sklearn
