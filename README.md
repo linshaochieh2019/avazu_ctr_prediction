@@ -13,9 +13,9 @@ Getting started, the initial files are:
 - train.py
 
 Solution:
-Ensemble of multiple base models, which are XGBoost classifiers without fine-tuning.
-Each model making inference on Kaggle achieved log loss between 0.405 ~ 0.42.
-Ensemble of multiple base models achieved log loss betwee 0.405 ~ 0.412.
+- Ensemble of multiple base models, which are XGBoost classifiers without fine-tuning.
+    - Each model making inference on Kaggle achieved log loss between 0.405 ~ 0.42.
+    - Ensemble of multiple base models achieved log loss betwee 0.405 ~ 0.412.
 
 Workflow:
 1. Prepare train dataset
