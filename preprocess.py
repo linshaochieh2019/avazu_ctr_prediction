@@ -1,12 +1,12 @@
 import numpy as np
 import pandas as pd
+import os
 import pickle
 from scipy.sparse import csr_matrix,hstack
 from sklearn.metrics import log_loss
 from sklearn.preprocessing import StandardScaler,MinMaxScaler,FunctionTransformer,OneHotEncoder
 from sklearn.model_selection import train_test_split
 from xgboost import XGBClassifier
-
 
 def hour2cosine(hr):
     cosine = np.cos(2 * np.pi * hr / 24)
@@ -46,17 +46,16 @@ def encode_site_and_app(df):
     return df
 
 def df2matrix_onehot(df, encoder=None):
-    # Encode hr data and One-hot encoding
     num_cols = ['hr0', 'hr1']
     num_data = csr_matrix(df[num_cols])
     df = df.drop(columns=num_cols) #temporailty remove numerical columns so we can do one-hot encoding
 
-    if encoder:
+    if encoder: #with given encoder
         encoded_data = encoder.transform(df)
         encoded_data = hstack([encoded_data, num_data]) #add numerical columns back
 
-    else: #not encoder
-        encoder = OneHotEncoder(handle_unknown='ignore') #there are data that only exists in the train
+    else: #without given encoder
+        encoder = OneHotEncoder(handle_unknown='ignore') #in case there are data that only exists in the train
         encoded_data = encoder.fit_transform(df)
         encoded_data = hstack([encoded_data, num_data]) #add numerical columns back
 
@@ -80,16 +79,12 @@ def gen_uid_count(df, uid_counter):
     return uid_cnts
 
 def encoding(df, uid_counter, encoder=None):
-    # should replace 'load_data' function later
-    # remove target
     print('Encoding training dataset then return encoded data and encoder...')
-
-    # there is no 'click' data when encoding test
-    try:
+    try: 
         target = np.array(df['click'])
         df = df.drop(columns='click')
 
-    except:
+    except: #in case there is no 'click' data when encoding test
         target = None
         
     # preprocess hour
@@ -109,7 +104,6 @@ def encoding(df, uid_counter, encoder=None):
 
     # drop unwanted columns
     unwanted = ['id', 'device_id', 'device_ip', 'device_model']
-    #print('Discard the following columns: ', unwanted)
     df = df.drop(columns=unwanted)
 
     # encoding
@@ -120,7 +114,6 @@ def encoding(df, uid_counter, encoder=None):
         print('    - using given encoder')
         encoded_data,encoder = df2matrix_onehot(df, encoder=encoder)
          
-
     # add counting features back to encoded data
     encoded_data = hstack([encoded_data, uid_cnts])
     print('Encoding is done')
@@ -142,7 +135,17 @@ def save_model(clf, encoder, loss, cwd, model_index):
         'encoder': encoder,
         'loss': loss
     }
-    model_name = cwd + f'/models/clf_{model_index}.pkl'
+    model_name = cwd + f'/clfs/clf_{model_index}.pkl'
+
+    # check clfs dir exists otherwise mkdir
+    try:
+        clfs_path = cwd + '/clfs'
+        os.mkdir(clfs_path)
+    
+    except FileExistsError:
+        pass #"Directory already exists"
+
+
     with open(model_name, 'wb') as file:
         pickle.dump(model, file)
     print('Model and encoder saved')
