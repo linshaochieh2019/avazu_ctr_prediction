@@ -9,6 +9,10 @@ I learned a lot from this repository "4 Idiots' Approach for Click-through Rate 
 
 Thank you to the team for sharing their knowledge and expertise .
 
+## Datasets:
+Click-Through Rate Prediction
+https://www.kaggle.com/competitions/avazu-ctr-prediction/
+
 ## Libraries required:
 - scipy
 - sklearn
